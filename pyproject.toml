@@ -1,0 +1,32 @@
+[project]
+name = "ai-data-platform-copilot"
+version = "0.1.0"
+description = "Evidence-first AI copilot for data platform metadata, lineage, SQL, and governed metrics."
+requires-python = "==3.13.7"
+dependencies = [
+    "dbt-core==1.11.13",
+    "dbt-duckdb==1.10.1",
+    "dbt-metricflow[dbt-duckdb]==0.14.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy==1.17.1",
+    "pytest==8.4.1",
+    "ruff==0.12.9",
+    "types-PyYAML==6.0.12.20260815",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true

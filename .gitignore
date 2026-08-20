@@ -1,0 +1,15 @@
+.DS_Store
+.env
+.venv/
+.uv-cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+
+demo/jaffle_shop/jaffle_shop.duckdb
+demo/jaffle_shop/logs/
+demo/jaffle_shop/target/
+demo/jaffle_shop/dbt_packages/
+demo/jaffle_shop/metricflow.log
