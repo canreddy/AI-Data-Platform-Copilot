@@ -52,6 +52,17 @@ class UnsupportedProvider:
         return str(evidence["message"])
 
 
+class MisclassifiedDimensionProvider:
+    def classify(self, question: str) -> IntentDecision:
+        return IntentDecision(
+            intent=CopilotIntent.METRIC_DIMENSIONS,
+            metric="average_order_value",
+        )
+
+    def compose(self, question: str, decision: IntentDecision, evidence: dict[str, Any]) -> str:
+        return str(evidence["message"])
+
+
 class CompilingArtifactProvider(ArtifactSemanticProvider):
     def compile_metric_query(self, request: MetricQueryRequest) -> MetricQueryCompilation:
         validation = self.validate_metric_query(request)
@@ -156,3 +167,21 @@ def test_total_order_amount_by_credit_card_maps_to_revenue_by_payment_method() -
     assert response.execution_query is not None
     assert response.execution_query.metric == "total_revenue"
     assert response.execution_query.group_by == ("payment_method",)
+
+
+def test_metric_based_on_dimension_is_compiled_instead_of_listing_dimensions() -> None:
+    semantic_provider = CompilingArtifactProvider(ROOT / "demo" / "jaffle_shop" / "target")
+    metadata = Mock(spec=MetadataService)
+    service = ChatService(
+        MisclassifiedDimensionProvider(),
+        metadata,
+        MetricService(semantic_provider),
+    )
+
+    response = service.ask("Show average order value based on order status")
+
+    assert response.intent == CopilotIntent.METRIC_COMPILE
+    assert response.confirmation_required is True
+    assert response.execution_query is not None
+    assert response.execution_query.metric == "average_order_value"
+    assert response.execution_query.group_by == ("order_status",)

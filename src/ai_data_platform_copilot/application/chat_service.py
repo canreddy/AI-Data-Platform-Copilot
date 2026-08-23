@@ -52,10 +52,20 @@ class ChatService:
         group_by = self._ground_group_by(question, decision.group_by, resolved_metric)
         year = decision.year or self._extract_year(question)
         intent = decision.intent
+        grouping_requested = bool(
+            re.search(r"\b(?:based on|grouped by|broken down by|breakdown by|by)\b", self._normalize(question))
+        )
         if resolved_metric and (year is not None or group_by) and intent in {
             CopilotIntent.METRIC_DETAILS,
             CopilotIntent.UNSUPPORTED,
         }:
+            intent = CopilotIntent.METRIC_COMPILE
+        if (
+            resolved_metric
+            and group_by
+            and grouping_requested
+            and intent == CopilotIntent.METRIC_DIMENSIONS
+        ):
             intent = CopilotIntent.METRIC_COMPILE
         return decision.model_copy(
             update={
