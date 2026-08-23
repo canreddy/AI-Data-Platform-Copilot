@@ -72,8 +72,9 @@ mf query --metrics total_revenue --group-by metric_time__month --explain --quiet
 
 ## Execution safety boundary
 
-The product will compile and return governed SQL but will never execute it. Execution exists only in
-`scripts/verify_metricflow_duckdb.py` and has all of these guards:
+Phase 0 originally restricted execution to `scripts/verify_metricflow_duckdb.py`. The separately approved Phase 3.1
+product path reuses the same principles for explicitly confirmed governed metric requests only; no endpoint accepts
+SQL. The compatibility script has all of these guards:
 
 - fixed metric request; no user-supplied SQL;
 - included database path only: `demo/jaffle_shop/jaffle_shop.duckdb`;
@@ -107,4 +108,3 @@ Phase 1 can proceed without a MetricFlow fallback limitation. It should ingest `
 from one completed build into immutable SQLite/FTS5 snapshots, then build confirmed model-level graph edges from the
 same manifest checksum. Semantic nodes can be read from `semantic_manifest.json` when metric-aware lineage is added
 in Phase 3. The remaining approved phase boundaries are unchanged.
-

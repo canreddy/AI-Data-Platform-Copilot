@@ -1,0 +1,1 @@
+"""Optional OpenAI adapters."""

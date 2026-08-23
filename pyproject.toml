@@ -7,15 +7,34 @@ dependencies = [
     "dbt-core==1.11.13",
     "dbt-duckdb==1.10.1",
     "dbt-metricflow[dbt-duckdb]==0.14.0",
+    "fastapi==0.141.1",
+    "graphviz==0.21",
+    "httpx==0.28.1",
+    "networkx==3.6.1",
+    "openai==3.3.1",
+    "pydantic==2.13.4",
+    "python-dotenv==1.2.3",
+    "sqlglot==30.17.0",
+    "streamlit==1.62.0",
+    "uvicorn[standard]==0.52.4",
 ]
 
 [dependency-groups]
 dev = [
+    "httpx2==2.12.0",
     "mypy==1.17.1",
     "pytest==8.4.1",
     "ruff==0.12.9",
     "types-PyYAML==6.0.12.20260815",
+    "types-networkx==3.6.1.20260728",
 ]
+
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_data_platform_copilot"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

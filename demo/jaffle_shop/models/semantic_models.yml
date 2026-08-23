@@ -51,6 +51,7 @@ semantic_models:
         expr: customer_id
     dimensions:
       - name: first_order_date
+        description: Date of the customer's first order; null when the customer has no orders.
         type: time
         expr: first_order
         type_params:

@@ -24,6 +24,8 @@
 - `make dbt-build`: build the local Jaffle Shop project.
 - `make dbt-docs`: generate dbt documentation artifacts.
 - `make metricflow-check`: run the isolated Phase 0 compatibility verification.
+- `make run-api`: start the local FastAPI service.
+- `make run-ui`: start the Streamlit application.
 - `make test`: run deterministic tests.
 - `make check`: run Ruff, mypy, and tests.
 
@@ -50,4 +52,3 @@
 - APIs and tool contracts are typed and tested.
 - Safety constraints and capability limitations are documented.
 - No core behavior is represented only by TODO comments.
-

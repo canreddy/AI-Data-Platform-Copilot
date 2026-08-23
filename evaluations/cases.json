@@ -1,0 +1,22 @@
+[
+  {"id":"metadata-orders","capability":"metadata_search","input":"orders","expected":"orders"},
+  {"id":"metadata-column","capability":"metadata_search","input":"customer_id","expected":"customer_id"},
+  {"id":"metadata-missing","capability":"metadata_details","input":"not_a_model","expected":"resource_not_found"},
+  {"id":"lineage-upstream","capability":"lineage","input":"customers:upstream","expected":"stg_customers"},
+  {"id":"lineage-downstream","capability":"lineage","input":"stg_orders:downstream","expected":"orders"},
+  {"id":"impact","capability":"impact","input":"stg_payments","expected":"payments"},
+  {"id":"sql-select-star","capability":"sql_review","input":"select * from orders","expected":"style.select_star"},
+  {"id":"sql-destructive","capability":"sql_review","input":"drop table orders","expected":"safety.non_read_only"},
+  {"id":"sql-unknown-column","capability":"sql_review","input":"select o.nope from orders o","expected":"correctness.unknown_qualified_column"},
+  {"id":"sql-never-executed","capability":"sql_review","input":"delete from orders","expected":"read_only:false"},
+  {"id":"metrics-list","capability":"metric_discovery","input":"list","expected":"total_revenue"},
+  {"id":"metric-definition","capability":"metric_details","input":"total_revenue","expected":"payments"},
+  {"id":"metric-aov","capability":"metric_details","input":"average_order_value","expected":"orders"},
+  {"id":"metric-dimensions","capability":"metric_dimensions","input":"total_revenue","expected":"payment_method"},
+  {"id":"metric-execute-2018","capability":"metric_execute","input":"total_revenue:2018:confirmed","expected":"1672.0"},
+  {"id":"metric-incompatible","capability":"metric_validate","input":"total_revenue:customer_age","expected":"invalid"},
+  {"id":"metric-undefined","capability":"metric_details","input":"gross_margin","expected":"metric_not_found"},
+  {"id":"metric-lineage","capability":"metric_lineage","input":"average_order_value","expected":"measure"},
+  {"id":"metric-impact","capability":"metric_impact","input":"payments","expected":"total_revenue"},
+  {"id":"chat-disabled","capability":"chat","input":"What metrics are available?","expected":"chat_disabled"}
+]

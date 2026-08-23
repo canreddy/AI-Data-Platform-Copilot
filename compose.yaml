@@ -1,0 +1,25 @@
+services:
+  api:
+    build: .
+    command: ["uvicorn", "apps.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.4-mini}
+    ports: ["8000:8000"]
+    volumes: ["copilot-data:/app/data"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/ready')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  ui:
+    build: .
+    command: ["streamlit", "run", "apps/ui/streamlit_app.py", "--server.address", "0.0.0.0", "--server.port", "8501"]
+    environment:
+      COPILOT_API_URL: http://api:8000
+    ports: ["8501:8501"]
+    depends_on:
+      api:
+        condition: service_healthy
+volumes:
+  copilot-data:

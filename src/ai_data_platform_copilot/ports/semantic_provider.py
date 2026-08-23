@@ -1,0 +1,23 @@
+"""Port for governed semantic metadata and query compilation."""
+
+from __future__ import annotations
+
+from typing import Protocol
+
+from ai_data_platform_copilot.domain.metrics import (
+    MetricDefinition,
+    MetricQueryCompilation,
+    MetricQueryRequest,
+    MetricQueryValidation,
+    SemanticModel,
+)
+
+
+class SemanticProvider(Protocol):
+    def list_metrics(self) -> tuple[MetricDefinition, ...]: ...
+    def get_metric_details(self, name: str) -> MetricDefinition: ...
+    def list_metric_dimensions(self, name: str) -> tuple[str, ...]: ...
+    def list_semantic_models(self) -> tuple[SemanticModel, ...]: ...
+    def get_semantic_model_details(self, name: str) -> SemanticModel: ...
+    def validate_metric_query(self, request: MetricQueryRequest) -> MetricQueryValidation: ...
+    def compile_metric_query(self, request: MetricQueryRequest) -> MetricQueryCompilation: ...

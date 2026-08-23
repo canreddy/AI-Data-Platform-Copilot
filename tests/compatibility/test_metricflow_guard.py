@@ -27,4 +27,3 @@ def test_execution_revalidates_sql(tmp_path: Path) -> None:
     sql_path.write_text("drop table payments", encoding="utf-8")
     with pytest.raises(ValueError):
         execute_compiled_sql(sql_path)
-

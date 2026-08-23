@@ -1,0 +1,17 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.12.3"
+          python-version: "3.13.7"
+      - run: uv sync --frozen
+      - run: make dbt-build dbt-docs
+      - run: make check
+      - run: make metricflow-check
